@@ -1,5 +1,5 @@
 #Cria um bucket para o TF State
-module "bucket-tf" {
+module "prod-bucket-tf" {
   source         = "./modules/s3/"
   s3_bucket_name = "tfstate-lab-waycarbon"
   s3_acl         = "private"
@@ -8,7 +8,7 @@ module "bucket-tf" {
 }
 
 #Cria um bucket para o site estático
-module "bucket-website" {
+module "prod-bucket-website" {
   source         = "./modules/s3/"
   s3_bucket_name = "lab-waycarbon"
   s3_acl         = "public-read"
@@ -17,23 +17,22 @@ module "bucket-website" {
 }
 
 #Cria uma role para o ECS
-module "ecs-iam" {
+module "prod-ecs-iam" {
   source            = "./modules/iam/"
   iam_ecs_role_name = "iam-ecs"
 }
 
 #Cria um cluster ECS
-module "ecs" {
+module "prod-ecs" {
   source           = "./modules/ecs/"
   ecs_cluster_name = "waycarbon"
 }
 
 #Cria uma task definition ECS
-module "application" {
+module "prod-application" {
   source                   = "./modules/ecs_task/"
   ecs_task_family          = "waycarbon"
   ecs_task_role_arn        = module.ecs-iam.ecs_role_arn
-  ecs_task_network_mode    = "awsvpc"
   ecs_task_compatibilities = ["FARGATE"]
   ecs_task_container_name  = "application"
   ecs_task_container_image = "luizfilipesm/waycarbon:latest"
@@ -44,7 +43,7 @@ module "application" {
 }
 
 #Cria uma VPC com duas subnetes privadas que utiliza um NAT gateway e uma publica que utiliza um internet gateway
-module "vpc" {
+module "prod-vpc" {
   source                               = "./modules/vpc/"
   vpc_name                             = "vpc-waycarbon"
   vpc_security_group_ingress_from_port = "80"
@@ -62,7 +61,7 @@ module "vpc" {
 }
 
 #Cria um load balancer
-module "elb" {
+module "prod-elb" {
   source                               = "./modules/elb/"
   elb_name                             = "elb-waycarbon"
   elb_type                             = "application"
@@ -84,7 +83,7 @@ module "elb" {
 }
 
 #Cria um service ECS
-module "application-service" {
+module "prod-application-service" {
   source                         = "./modules/ecs_service/"
   ecs_service_name               = "waycarbon"
   ecs_service_cluster            = module.ecs.cluster_name
@@ -99,7 +98,7 @@ module "application-service" {
 }
 
 #Cria um CDN para a aplicação
-module "cdn" {
+module "prod-cdn" {
   source                  = "./modules/cdn/"
   cdn_damin_name          = module.bucket-website.domain_name
   cdn_origin_id           = module.bucket-website.bucket_name
@@ -121,7 +120,7 @@ module "cdn" {
 }
 
 # #Cria um dominio e um record do tipo CNAME
-# module "route53" {
+# module "prod-route53" {
 #   source              = "./modules/route53/"
 #   route53_zone_name   = "labluizfilipe.com.br"
 #   route53_record_name = "waycarbon-teste"

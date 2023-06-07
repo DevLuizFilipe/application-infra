@@ -8,11 +8,6 @@ variable "ecs_task_role_arn" {
   description = "ARN da role ECS"
 }
 
-variable "ecs_task_network_mode" {
-  type        = string
-  description = "Modo de rede da task ECS"
-}
-
 variable "ecs_task_compatibilities" {
   type        = list(string)
   description = "Tipo da task ECS"

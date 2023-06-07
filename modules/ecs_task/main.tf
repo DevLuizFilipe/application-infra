@@ -1,7 +1,7 @@
 resource "aws_ecs_task_definition" "task_definition" {
   family                   = var.ecs_task_family
   execution_role_arn       = var.ecs_task_role_arn
-  network_mode             = var.ecs_task_network_mode
+  network_mode             = "awsvpc"
   requires_compatibilities = var.ecs_task_compatibilities
 
   container_definitions = jsonencode([
