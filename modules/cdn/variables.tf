@@ -23,21 +23,6 @@ variable "cdn_root_object" {
   description = "Objeto raiz do CDN"
 }
 
-variable "cdn_allowed_methods" {
-  type        = list(string)
-  description = "Métodos permitidos"
-}
-
-variable "cdn_cached_methods" {
-  type        = list(string)
-  description = "Métodos cacheados"
-}
-
-variable "cdn_cache_target_origin" {
-  type        = string
-  description = "Origem do cache do CDN"
-}
-
 variable "cdn_query_string" {
   type        = string
   description = "Habilitar query string"
