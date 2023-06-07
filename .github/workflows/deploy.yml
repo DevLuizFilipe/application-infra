@@ -1,0 +1,61 @@
+name: Terraform Pipeline
+
+on:
+  push:
+    branches:
+      - '*'
+  pull_request:
+    branches:
+      - '*'
+
+jobs:
+
+  test:
+    runs-on: ubuntu-local
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Configurando o Terraform
+        uses: hashicorp/setup-terraform@v1
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Fmt
+        run: terraform fmt -recursive --check
+
+      - name: Terraform Validate
+        run: terraform validate
+
+  plan:
+    runs-on: ubuntu-local
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Plan
+        run: terraform plan
+
+  apply:
+    runs-on: ubuntu-local
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve
