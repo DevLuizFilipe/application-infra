@@ -30,6 +30,7 @@ jobs:
         run: terraform validate
 
   plan:
+    needs: validate
     runs-on: ubuntu-local
     steps:
       - name: Checkout
@@ -45,6 +46,7 @@ jobs:
         run: terraform plan
 
   apply:
+    needs: plan
     runs-on: ubuntu-local
     if: github.ref == 'refs/heads/main'
     steps:
