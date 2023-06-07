@@ -8,13 +8,10 @@ on:
       - '*'
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-local
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-
-      - name: Configurando Docker
-        uses: docker/setup-docker@v1
 
       - name: Baixando imagem do KICS
         run: docker pull checkmarx/kics:latest
@@ -23,7 +20,7 @@ jobs:
         run: docker run -v $(pwd):/path -i checkmarx/kics:latest scan -p "/path"
 
   validate:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-local
     needs: test
     steps:
       - name: Checkout
@@ -43,7 +40,7 @@ jobs:
 
   plan:
     needs: validate
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-local
     steps:
       - name: Configurando AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -57,7 +54,7 @@ jobs:
 
   apply:
     needs: plan
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-local
     if: github.ref == 'refs/heads/main'
     steps:
       - name: Terraform Apply
