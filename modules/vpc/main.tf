@@ -81,7 +81,7 @@ resource "aws_route_table_association" "route_table_association_subnet3" {
 }
 
 resource "aws_eip" "eip" {
-  vpc = true
+  domain = "vpc"
 }
 
 resource "aws_nat_gateway" "nat_gateway" {
