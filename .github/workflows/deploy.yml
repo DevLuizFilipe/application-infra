@@ -10,6 +10,21 @@ on:
 
 jobs:
 
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Instalando KICS
+        run: curl -sfL https://raw.githubusercontent.com/Checkmarx/kics/main/install.sh | bash
+
+      - name: Executando KICS Scan
+        run: kics scan -p . --output-path kics_report.json
+
+      - name: Fazendo o upload do report
+        uses: actions/upload-artifact@v2
+        with:
+          name: kics-report
+          path: kics_report.json
+
   validate:
     runs-on: ubuntu-local
 
