@@ -17,9 +17,8 @@ jobs:
         run: docker pull checkmarx/kics:latest
 
       - name: Executando o KICS Scan
-        run: |
-          docker run -v $(pwd):/path -i checkmarx/kics:latest scan -p "/path"
-          exit 0
+        run: docker run -v $(pwd):/path -i checkmarx/kics:latest scan -p "/path" && exit 0
+        
 
   validate:
     runs-on: ubuntu-local
