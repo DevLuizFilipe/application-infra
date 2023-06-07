@@ -116,7 +116,7 @@ module "prod-cdn" {
   cdn_max_ttl             = "86400"
   cdn_geo_restriction     = "none"
   cdn_certificate_default = "true"
-  depends_on              = [module.prod-prod-bucket-website]
+  depends_on              = [module.prod-bucket-website]
 }
 
 # #Cria um dominio e um record do tipo CNAME
