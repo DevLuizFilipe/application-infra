@@ -8,6 +8,11 @@ resource "aws_cloudfront_distribution" "cdn" {
   is_ipv6_enabled     = var.cdn_ipv6
   default_root_object = var.cdn_root_object
 
+  default_cache_behavior {
+    allowed_methods  = var.cdn_allowed_methods
+    cached_methods   = var.cdn_cached_methods
+    target_origin_id = var.cdn_cache_target_origin
+
     forwarded_values {
       query_string = var.cdn_query_string
       cookies {
@@ -19,6 +24,7 @@ resource "aws_cloudfront_distribution" "cdn" {
     min_ttl                = var.cdn_min_ttl
     default_ttl            = var.cdn_default_ttl
     max_ttl                = var.cdn_max_ttl
+  }
 
   restrictions {
     geo_restriction {

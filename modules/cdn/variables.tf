@@ -5,7 +5,7 @@ variable "cdn_damin_name" {
 
 variable "cdn_origin_id" {
   type        = string
-  description = "ID da origem do CDN"
+  description = "Nome do bucket"
 }
 
 variable "cdn_enabled" {
@@ -21,6 +21,21 @@ variable "cdn_ipv6" {
 variable "cdn_root_object" {
   type        = string
   description = "Objeto raiz do CDN"
+}
+
+variable "cdn_allowed_methods" {
+  type        = list(string)
+  description = "Métodos permitidos"
+}
+
+variable "cdn_cached_methods" {
+  type        = list(string)
+  description = "Métodos cacheados"
+}
+
+variable "cdn_cache_target_origin" {
+  type        = string
+  description = "Nome do bucket"
 }
 
 variable "cdn_query_string" {

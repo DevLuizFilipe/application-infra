@@ -102,10 +102,13 @@ module "application-service" {
 module "cdn" {
   source                  = "./modules/cdn/"
   cdn_damin_name          = module.bucket-website.domain_name
-  cdn_origin_id           = module.bucket-website.domain_name.bucket_id
+  cdn_origin_id           = module.bucket-website.bucket_name
   cdn_enabled             = "true"
   cdn_ipv6                = "true"
   cdn_root_object         = "index.html"
+  cdn_allowed_methods     = ["GET", "HEAD", "OPTIONS"]
+  cdn_cached_methods      = ["GET", "HEAD", "OPTIONS"]
+  cdn_cache_target_origin = module.bucket-website.bucket_name
   cdn_query_string        = "false"
   cdn_cookies             = "none"
   cdn_protocol_policy     = "redirect-to-https"
