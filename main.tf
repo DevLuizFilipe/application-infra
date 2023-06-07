@@ -108,7 +108,7 @@ module "cdn" {
   cdn_root_object         = "index.html"
   cdn_allowed_methods     = ["GET", "HEAD", "OPTIONS"]
   cdn_cached_methods      = ["GET", "HEAD", "OPTIONS"]
-  cdn_cache_target_origin       = module.bucket-website.domain_name.bucket_id
+  cdn_cache_target_origin = module.bucket-website.domain_name.bucket_id
   cdn_query_string        = "false"
   cdn_cookies             = "none"
   cdn_protocol_policy     = "redirect-to-https"
