@@ -32,14 +32,14 @@ module "ecs" {
 module "application" {
   source                   = "./modules/ecs_task/"
   ecs_task_family          = "waycarbon"
-  ecs_task_role_arn        = module.ecs-iam.ecs_role_arn
+  ecs_task_role_arn        = module.ecs_iam.ecs_role_arn
   ecs_task_compatibilities = ["FARGATE"]
   ecs_task_container_name  = "application"
   ecs_task_container_image = "luizfilipesm/waycarbon:latest"
   ecs_task_container_port  = "3000"
   ecs_task_port            = "80"
   ecs_task_protocol        = "tcp"
-  depends_on               = [module.ecs-iam]
+  depends_on               = [module.ecs_iam]
 }
 
 #Cria uma VPC com duas subnetes privadas que utiliza um NAT gateway e uma publica que utiliza um internet gateway
@@ -100,14 +100,14 @@ module "application_service" {
 #Cria um CDN para a aplicação
 module "cdn" {
   source                  = "./modules/cdn/"
-  cdn_damin_name          = module.bucket-website.domain_name
-  cdn_origin_id           = module.bucket-website.bucket_name
+  cdn_damin_name          = module.bucket_website.domain_name
+  cdn_origin_id           = module.bucket_website.bucket_name
   cdn_enabled             = "true"
   cdn_ipv6                = "true"
   cdn_root_object         = "index.html"
   cdn_allowed_methods     = ["GET", "HEAD", "OPTIONS"]
   cdn_cached_methods      = ["GET", "HEAD", "OPTIONS"]
-  cdn_cache_target_origin = module.bucket-website.bucket_name
+  cdn_cache_target_origin = module.bucket_website.bucket_name
   cdn_query_string        = "false"
   cdn_cookies             = "none"
   cdn_protocol_policy     = "redirect-to-https"
@@ -116,7 +116,7 @@ module "cdn" {
   cdn_max_ttl             = "86400"
   cdn_geo_restriction     = "none"
   cdn_certificate_default = "true"
-  depends_on              = [module.bucket-website]
+  depends_on              = [module.bucket_website]
 }
 
 # #Cria um dominio e um record do tipo CNAME
