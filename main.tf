@@ -11,7 +11,7 @@ module "bucket-tf" {
 module "bucket-website" {
   source         = "./modules/s3/"
   s3_bucket_name = "lab-waycarbon"
-  s3_acl         = "public"
+  s3_acl         = "public-read"
   s3_site_index  = "index.html"
   s3_site_error  = "error.html"
 }

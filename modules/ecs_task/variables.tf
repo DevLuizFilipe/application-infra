@@ -29,12 +29,12 @@ variable "ecs_task_container_image" {
 }
 
 variable "ecs_task_container_port" {
-  type        = string
+  type        = number
   description = "Porta do container"
 }
 
 variable "ecs_task_port" {
-  type        = string
+  type        = number
   description = "Porta da task"
 }
 
