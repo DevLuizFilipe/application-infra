@@ -4,7 +4,7 @@ resource "aws_cloudfront_distribution" "cdn" {
     origin_id   = var.cdn_origin_id
   }
 
-  enabled             = var.cnd_enabled
+  enabled             = var.cdn_enabled
   is_ipv6_enabled     = var.cdn_ipv6
   default_root_object = var.cdn_root_object
 

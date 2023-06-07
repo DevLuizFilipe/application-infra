@@ -1,7 +1,7 @@
 resource "aws_lb" "elb" {
   name               = var.elb_name
   load_balancer_type = var.elb_type
-  subnets            = var.elb_subnets[aws_subnet.example_subnet.id]
+  subnets            = var.elb_subnets
 }
 
 resource "aws_lb_target_group" "target_group" {
