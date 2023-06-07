@@ -10,7 +10,7 @@ on:
 
 jobs:
 
-  test:
+  validate:
     runs-on: ubuntu-local
 
     steps:
