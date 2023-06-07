@@ -32,14 +32,14 @@ module "prod-ecs" {
 module "prod-application" {
   source                   = "./modules/ecs_task/"
   ecs_task_family          = "waycarbon"
-  ecs_task_role_arn        = module.ecs-iam.ecs_role_arn
+  ecs_task_role_arn        = module.prod-ecs-iam.ecs_role_arn
   ecs_task_compatibilities = ["FARGATE"]
   ecs_task_container_name  = "application"
   ecs_task_container_image = "luizfilipesm/waycarbon:latest"
   ecs_task_container_port  = "3000"
   ecs_task_port            = "80"
   ecs_task_protocol        = "tcp"
-  depends_on               = [module.ecs-iam]
+  depends_on               = [module.prod-ecs-iam]
 }
 
 #Cria uma VPC com duas subnetes privadas que utiliza um NAT gateway e uma publica que utiliza um internet gateway
@@ -65,11 +65,11 @@ module "prod-elb" {
   source                               = "./modules/elb/"
   elb_name                             = "elb-waycarbon"
   elb_type                             = "application"
-  elb_subnets                          = [module.vpc.subnet1_id, module.vpc.subnet2_id]
+  elb_subnets                          = [module.prod-vpc.subnet1_id, module.prod-vpc.subnet2_id]
   elb_target_group_name                = "elb-waycarbon-target-group"
   elb_target_group_port                = "80"
   elb_target_group_protocol            = "HTTP"
-  elb_target_group_vpc                 = module.vpc.vpc_id
+  elb_target_group_vpc                 = module.prod-vpc.vpc_id
   elb_group_target_heatlh_interval     = 30
   elb_group_target_heatlh_path         = "/"
   elb_group_target_heatlh_port         = "traffic-port"
@@ -86,28 +86,28 @@ module "prod-elb" {
 module "prod-application-service" {
   source                         = "./modules/ecs_service/"
   ecs_service_name               = "waycarbon"
-  ecs_service_cluster            = module.ecs.cluster_name
-  ecs_service_task               = module.application.task_arn
+  ecs_service_cluster            = module.prod-ecs.cluster_name
+  ecs_service_task               = module.prod-application.task_arn
   ecs_service_count              = "1"
-  ecs_service_subnets            = [module.vpc.subnet1_id, module.vpc.subnet2_id]
-  ecs_service_security_groups    = [module.vpc.security_group_id]
-  ecs_service_elb_arn            = module.elb.elb_target_group_arn
-  ecs_service_elb_container      = module.application.task_container_name
-  ecs_service_elb_container_port = module.application.task_container_port
-  depends_on                     = [module.vpc, module.application, module.elb, module.ecs]
+  ecs_service_subnets            = [module.prod-vpc.subnet1_id, module.prod-vpc.subnet2_id]
+  ecs_service_security_groups    = [module.prod-vpc.security_group_id]
+  ecs_service_elb_arn            = module.prod-elb.elb_target_group_arn
+  ecs_service_elb_container      = module.prod-application.task_container_name
+  ecs_service_elb_container_port = module.prod-application.task_container_port
+  depends_on                     = [module.prod-vpc, module.prod-application, module.prod-elb, module.prod-ecs]
 }
 
 #Cria um CDN para a aplicação
 module "prod-cdn" {
   source                  = "./modules/cdn/"
-  cdn_damin_name          = module.bucket-website.domain_name
-  cdn_origin_id           = module.bucket-website.bucket_name
+  cdn_damin_name          = module.prod-bucket-website.domain_name
+  cdn_origin_id           = module.prod-bucket-website.bucket_name
   cdn_enabled             = "true"
   cdn_ipv6                = "true"
   cdn_root_object         = "index.html"
   cdn_allowed_methods     = ["GET", "HEAD", "OPTIONS"]
   cdn_cached_methods      = ["GET", "HEAD", "OPTIONS"]
-  cdn_cache_target_origin = module.bucket-website.bucket_name
+  cdn_cache_target_origin = module.prod-bucket-website.bucket_name
   cdn_query_string        = "false"
   cdn_cookies             = "none"
   cdn_protocol_policy     = "redirect-to-https"
@@ -116,7 +116,7 @@ module "prod-cdn" {
   cdn_max_ttl             = "86400"
   cdn_geo_restriction     = "none"
   cdn_certificate_default = "true"
-  depends_on              = [module.bucket-website]
+  depends_on              = [module.prod-prod-bucket-website]
 }
 
 # #Cria um dominio e um record do tipo CNAME
