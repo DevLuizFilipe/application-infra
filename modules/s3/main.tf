@@ -1,6 +1,10 @@
 resource "aws_s3_bucket" "bucket" {
   bucket = var.s3_bucket_name
   acl    = var.s3_acl
+  versioning {
+    enabled = true
+    mfa_delete = true
+  }
 }
 
 resource "aws_s3_bucket_versioning" "bucket_versioning" {
