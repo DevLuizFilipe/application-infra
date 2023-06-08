@@ -119,7 +119,7 @@ module "cdn" {
   depends_on              = [module.bucket_website]
 }
 
-# Cria um dominio e um record do tipo CNAME
+# #Cria um dominio e um record do tipo CNAME
 # module "route53" {
 #   source              = "./modules/route53/"
 #   route53_zone_name   = "labluizfilipe.com.br"
