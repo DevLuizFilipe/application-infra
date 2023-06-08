@@ -30,6 +30,7 @@ module "application" {
   ecs_task_container_port  = "3000"
   ecs_task_port            = "3000"
   ecs_task_protocol        = "tcp"
+  ecs_task_memory          = "512"
   depends_on               = [module.ecs_iam]
 }
 

@@ -15,6 +15,7 @@ resource "aws_ecs_task_definition" "task_definition" {
           protocol      = var.ecs_task_protocol
         }
       ]
+      memory = var.ecs_task_memory
     }
   ])
 }
