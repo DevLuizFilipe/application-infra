@@ -43,3 +43,8 @@ resource "aws_lb_listener" "listener_https" {
     target_group_arn = aws_lb_target_group.target_group.arn
   }
 }
+
+resource "aws_lb_listener_certificate" "listener_certificate" {
+  listener_arn    = aws_lb_listener.listener_https.arn
+  certificate_arn = var.elb_listener_certificate_arn
+}
