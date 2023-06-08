@@ -42,3 +42,8 @@ variable "ecs_task_memory" {
   type        = number
   description = "Memoria da task"
 }
+
+variable "ecs_task_cpu" {
+  type        = number
+  description = "CPU da task"
+}

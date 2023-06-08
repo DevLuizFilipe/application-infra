@@ -16,6 +16,7 @@ resource "aws_ecs_task_definition" "task_definition" {
         }
       ]
       memory = var.ecs_task_memory
+      cpu = var.ecs_task_cpu
     }
   ])
 }
