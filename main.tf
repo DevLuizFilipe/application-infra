@@ -7,6 +7,12 @@ module "bucket_website" {
   s3_site_error  = "error.html"
 }
 
+#Cria um certificado HTTPS
+module "certificate" {
+  source = "./modules/acm/"
+  acm_domain_name = module.bucket_website.domain_name
+}
+
 #Cria uma role para o ECS
 module "ecs_iam" {
   source            = "./modules/iam/"
@@ -75,6 +81,7 @@ module "elb" {
   elb_listener_port_https              = "443"
   elb_listener_protocol_https          = "HTTPS"
   elb_listener_type                    = "forward"
+  elb_listener_certificate_arn         = module.certificate.certificate_arn
 }
 
 #Cria um service ECS
