@@ -3,6 +3,8 @@ resource "aws_ecs_task_definition" "task_definition" {
   execution_role_arn       = var.ecs_task_role_arn
   network_mode             = "awsvpc"
   requires_compatibilities = var.ecs_task_compatibilities
+  memory                   = var.ecs_task_memory
+  cpu                      = var.ecs_task_cpu
 
   container_definitions = jsonencode([
     {
@@ -15,8 +17,6 @@ resource "aws_ecs_task_definition" "task_definition" {
           protocol      = var.ecs_task_protocol
         }
       ]
-      memory = var.ecs_task_memory
-      cpu = var.ecs_task_cpu
     }
   ])
 }
