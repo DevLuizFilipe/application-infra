@@ -70,8 +70,10 @@ module "elb" {
   elb_group_target_heatlh_timeout      = "5"
   elb_group_target_heatlh_threshold    = "3"
   elb_group_target_unhealthy_threshold = "2"
-  elb_listener_port                    = "80"
-  elb_listener_protocol                = "HTTP"
+  elb_listener_port_http               = "80"
+  elb_listener_protocol_http           = "HTTP"
+  elb_listener_port_https              = "443"
+  elb_listener_protocol_https          = "HTTPS"
   elb_listener_type                    = "forward"
 }
 

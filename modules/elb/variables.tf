@@ -68,12 +68,22 @@ variable "elb_group_target_unhealthy_threshold" {
   description = "Threshold de checagem de saúde da aplicação"
 }
 
-variable "elb_listener_port" {
+variable "elb_listener_port_http" {
   type        = string
   description = "Porta do listener"
 }
 
-variable "elb_listener_protocol" {
+variable "elb_listener_protocol_http" {
+  type        = string
+  description = "Protocolo do listener"
+}
+
+variable "elb_listener_port_https" {
+  type        = string
+  description = "Porta do listener"
+}
+
+variable "elb_listener_protocol_https" {
   type        = string
   description = "Protocolo do listener"
 }
