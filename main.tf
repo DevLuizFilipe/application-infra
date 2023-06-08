@@ -70,25 +70,24 @@ module "elb" {
   elb_group_target_heatlh_timeout      = "5"
   elb_group_target_heatlh_threshold    = "3"
   elb_group_target_unhealthy_threshold = "2"
+  elb_target_group_attachment_id       = module.application_service.service_id
+  elb_target_group_attachment_port     = module.application.task_container_port
   elb_listener_port_http               = "80"
   elb_listener_protocol_http           = "HTTP"
   elb_listener_type                    = "forward"
-  depends_on                           = [module.vpc]
+  depends_on                           = [module.vpc, module.application_service]
 }
 
 #Cria um service ECS
 module "application_service" {
-  source                         = "./modules/ecs_service/"
-  ecs_service_name               = "waycarbon"
-  ecs_service_cluster            = module.ecs.cluster_name
-  ecs_service_task               = module.application.task_arn
-  ecs_service_count              = "1"
-  ecs_service_subnets            = [module.vpc.subnet1_id, module.vpc.subnet2_id]
-  ecs_service_security_groups    = [module.vpc.security_group_id]
-  ecs_service_elb_arn            = module.elb.elb_target_group_arn
-  ecs_service_elb_container      = module.application.task_container_name
-  ecs_service_elb_container_port = module.application.task_container_port
-  depends_on                     = [module.vpc, module.application, module.elb, module.ecs]
+  source                      = "./modules/ecs_service/"
+  ecs_service_name            = "waycarbon"
+  ecs_service_cluster         = module.ecs.cluster_name
+  ecs_service_task            = module.application.task_arn
+  ecs_service_count           = "1"
+  ecs_service_subnets         = [module.vpc.subnet1_id, module.vpc.subnet2_id]
+  ecs_service_security_groups = [module.vpc.security_group_id]
+  depends_on                  = [module.vpc, module.application, module.ecs]
 }
 
 #Cria um CDN para a aplicação

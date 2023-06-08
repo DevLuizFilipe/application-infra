@@ -68,6 +68,16 @@ variable "elb_group_target_unhealthy_threshold" {
   description = "Threshold de checagem de saúde da aplicação"
 }
 
+variable "elb_target_group_attachment_id" {
+  type        = string
+  description = "ID do ECS"
+}
+
+variable "elb_target_group_attachment_port" {
+  type        = string
+  description = "Porta do ECS"
+}
+
 variable "elb_listener_port_http" {
   type        = string
   description = "Porta do listener"
