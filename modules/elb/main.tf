@@ -22,10 +22,21 @@ resource "aws_lb_target_group" "target_group" {
   }
 }
 
-resource "aws_lb_listener" "listener" {
+resource "aws_lb_listener" "listener_http" {
   load_balancer_arn = aws_lb.elb.arn
-  port              = var.elb_listener_port
-  protocol          = var.elb_listener_protocol
+  port              = var.elb_listener_port_http
+  protocol          = var.elb_listener_protocol_http
+
+  default_action {
+    type             = var.elb_listener_type
+    target_group_arn = aws_lb_target_group.target_group.arn
+  }
+}
+
+resource "aws_lb_listener" "listener_https" {
+  load_balancer_arn = aws_lb.elb.arn
+  port              = var.elb_listener_port_https
+  protocol          = var.elb_listener_protocol_https
 
   default_action {
     type             = var.elb_listener_type
