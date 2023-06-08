@@ -4,7 +4,7 @@ provider "aws" {
 }
 terraform {
   backend "s3" {
-    bucket = module.bucket-tf.bucket_name
+    bucket = "tfstate-lab-waycarbon"
     key    = "terraform.tfstate"
     region = "us-east-1"
   }
