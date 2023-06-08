@@ -5,10 +5,11 @@ resource "aws_lb" "elb" {
 }
 
 resource "aws_lb_target_group" "target_group" {
-  name     = var.elb_target_group_name
-  port     = var.elb_target_group_port
-  protocol = var.elb_target_group_protocol
-  vpc_id   = var.elb_target_group_vpc
+  name        = var.elb_target_group_name
+  port        = var.elb_target_group_port
+  protocol    = var.elb_target_group_protocol
+  vpc_id      = var.elb_target_group_vpc
+  target_type = "ip"
 
   health_check {
     interval            = var.elb_group_target_heatlh_interval
