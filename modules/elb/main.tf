@@ -22,6 +22,12 @@ resource "aws_lb_target_group" "target_group" {
   }
 }
 
+resource "aws_lb_target_group_attachment" "target_group_attachment" {
+  target_group_arn = aws_lb_target_group.target_group.arn
+  target_id        = var.elb_target_group_attachment_id
+  port             = var.elb_target_group_attachment_port
+}
+
 resource "aws_lb_listener" "listener_http" {
   load_balancer_arn = aws_lb.elb.arn
   port              = var.elb_listener_port_http

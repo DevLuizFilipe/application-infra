@@ -27,18 +27,3 @@ variable "ecs_service_security_groups" {
   type        = list(string)
   description = "Security groups do service"
 }
-
-variable "ecs_service_elb_arn" {
-  type        = string
-  description = "ARN do ELB"
-}
-
-variable "ecs_service_elb_container" {
-  type        = string
-  description = "Container do ELB"
-}
-
-variable "ecs_service_elb_container_port" {
-  type        = string
-  description = "Porta do container do ELB"
-}
