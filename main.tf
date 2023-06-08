@@ -1,12 +1,3 @@
-#Cria um bucket para o TF State
-module "bucket_tf" {
-  source         = "./modules/s3/"
-  s3_bucket_name = "tfstate-lab-waycarbon"
-  s3_acl         = "private"
-  s3_site_index  = ""
-  s3_site_error  = ""
-}
-
 #Cria um bucket para o site estático
 module "bucket_website" {
   source         = "./modules/s3/"
@@ -37,7 +28,7 @@ module "application" {
   ecs_task_container_name  = "application"
   ecs_task_container_image = "luizfilipesm/waycarbon:latest"
   ecs_task_container_port  = "3000"
-  ecs_task_port            = "80"
+  ecs_task_port            = "3000"
   ecs_task_protocol        = "tcp"
   depends_on               = [module.ecs_iam]
 }
