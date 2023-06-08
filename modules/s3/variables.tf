@@ -3,7 +3,7 @@ variable "s3_bucket_name" {
   description = "Nome do bucket"
 }
 
-variable "s3_acl" {
+variable "s3_bucket_acl" {
   type        = string
   description = "ACL do bucket"
 }
@@ -16,9 +16,4 @@ variable "s3_site_index" {
 variable "s3_site_error" {
   type        = string
   description = "Error do site estático"
-}
-
-variable "s3_bucket_acl" {
-  type        = string
-  description = "ACL do bucket"
 }
