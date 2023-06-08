@@ -82,8 +82,3 @@ variable "elb_listener_type" {
   type        = string
   description = "Tipo do listener"
 }
-
-variable "elb_listener_certificate_arn" {
-  type        = string
-  description = "ARN do certificado HTTPS"
-}
