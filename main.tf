@@ -28,7 +28,7 @@ module "application" {
   ecs_task_container_name  = "application"
   ecs_task_container_image = "luizfilipesm/waycarbon:latest"
   ecs_task_container_port  = "3000"
-  ecs_task_port            = "3000"
+  ecs_task_port            = module.application.task_container_port
   ecs_task_protocol        = "tcp"
   ecs_task_memory          = "512"
   ecs_task_cpu             = "256"
@@ -59,12 +59,12 @@ module "elb" {
   elb_name                             = "elb-waycarbon"
   elb_type                             = "application"
   elb_subnets                          = [module.vpc.subnet1_id, module.vpc.subnet2_id]
-  elb_target_group_name                = "elb-waycarbon-target-group"
-  elb_target_group_port                = "80"
+  elb_target_group_name                = "ecs-waycarbon-target-group"
+  elb_target_group_port                = module.application.task_container_port
   elb_target_group_protocol            = "HTTP"
   elb_target_group_vpc                 = module.vpc.vpc_id
-  elb_group_target_heatlh_interval     = 30
-  elb_group_target_heatlh_path         = "/"
+  elb_group_target_heatlh_interval     = 10
+  elb_group_target_heatlh_path         = "/api"
   elb_group_target_heatlh_port         = "traffic-port"
   elb_group_target_heatlh_protocol     = "HTTP"
   elb_group_target_heatlh_timeout      = "5"
@@ -73,7 +73,7 @@ module "elb" {
   elb_listener_port_http               = "80"
   elb_listener_protocol_http           = "HTTP"
   elb_listener_type                    = "forward"
-  depends_on = [ module.vpc ]
+  depends_on                           = [module.vpc]
 }
 
 #Cria um service ECS
