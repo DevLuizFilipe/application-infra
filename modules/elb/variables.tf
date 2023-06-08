@@ -78,16 +78,6 @@ variable "elb_listener_protocol_http" {
   description = "Protocolo do listener"
 }
 
-variable "elb_listener_port_https" {
-  type        = string
-  description = "Porta do listener"
-}
-
-variable "elb_listener_protocol_https" {
-  type        = string
-  description = "Protocolo do listener"
-}
-
 variable "elb_listener_type" {
   type        = string
   description = "Tipo do listener"
