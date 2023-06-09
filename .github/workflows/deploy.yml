@@ -15,10 +15,13 @@ jobs:
 
       - name: Baixando imagem do KICS
         run: docker pull checkmarx/kics:latest
+        with:
+          privileged: true
 
       - name: Executando o KICS Scan
         run: docker run -v $(pwd):/path -i checkmarx/kics:latest scan -p "/path"
-        
+        with:
+          privileged: true
 
   validate:
     runs-on: ubuntu-aws
