@@ -5,14 +5,25 @@ resource "aws_vpc" "vpc" {
   }
 }
 
-resource "aws_security_group" "security_group" {
+resource "aws_security_group" "security_group_ecs" {
   vpc_id = aws_vpc.vpc.id
 
   ingress {
-    from_port   = var.vpc_security_group_ingress_from_port
-    to_port     = var.vpc_security_group_ingress_to_port
+    from_port   = var.vpc_security_group_ingress_from_port_ecs
+    to_port     = var.vpc_security_group_ingress_to_port_ecs
     protocol    = var.vpc_security_group_ingress_protocol
-    cidr_blocks = var.vpc_security_group_ingress_cidr
+    cidr_blocks = var.vpc_security_group_ingress_cidr_ecs
+  }
+}
+
+resource "aws_security_group" "security_group_elb" {
+  vpc_id = aws_vpc.vpc.id
+
+  ingress {
+    from_port   = var.vpc_security_group_ingress_from_port_elb
+    to_port     = var.vpc_security_group_ingress_to_port_elb
+    protocol    = var.vpc_security_group_ingress_protocol
+    cidr_blocks = var.vpc_security_group_ingress_cidr_elb
   }
 }
 

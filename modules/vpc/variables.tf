@@ -8,14 +8,24 @@ variable "vpc_cidr_block" {
   description = "default 10.0.0.0/16"
 }
 
-variable "vpc_security_group_ingress_from_port" {
+variable "vpc_security_group_ingress_from_port_ecs" {
   type        = string
-  description = "Porta de origem do ingresso"
+  description = "Porta de origem do ECS"
 }
 
-variable "vpc_security_group_ingress_to_port" {
+variable "vpc_security_group_ingress_to_port_ecs" {
   type        = string
-  description = "Porta de destino do ingresso"
+  description = "Porta de origem do ECS"
+}
+
+variable "vpc_security_group_ingress_from_port_elb" {
+  type        = string
+  description = "Porta de origem do ELB"
+}
+
+variable "vpc_security_group_ingress_to_port_elb" {
+  type        = string
+  description = "Porta de destino do ELB"
 }
 
 variable "vpc_security_group_ingress_protocol" {
@@ -23,7 +33,12 @@ variable "vpc_security_group_ingress_protocol" {
   description = "Protocolo do ingresso"
 }
 
-variable "vpc_security_group_ingress_cidr" {
+variable "vpc_security_group_ingress_cidr_ecs" {
+  type        = list(string)
+  description = "CIDR do ingresso"
+}
+
+variable "vpc_security_group_ingress_cidr_elb" {
   type        = list(string)
   description = "CIDR do ingresso"
 }

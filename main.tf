@@ -37,20 +37,23 @@ module "application" {
 
 #Cria uma VPC com duas subnetes privadas que utiliza um NAT gateway e uma publica que utiliza um internet gateway
 module "vpc" {
-  source                               = "./modules/vpc/"
-  vpc_name                             = "vpc-waycarbon"
-  vpc_security_group_ingress_from_port = "80"
-  vpc_security_group_ingress_to_port   = "80"
-  vpc_security_group_ingress_protocol  = "tcp"
-  vpc_security_group_ingress_cidr      = ["0.0.0.0/0"]
-  vpc_cidr_block                       = "10.0.0.0/16"
-  vpc_subnet1_cidr_block               = "10.0.1.0/24"
-  vpc_subnet2_cidr_block               = "10.0.2.0/24"
-  vpc_subnet3_cidr_block               = "10.0.3.0/24"
-  vpc_subnet_region1                   = "us-east-1a"
-  vpc_subnet_region2                   = "us-east-1b"
-  vpc_subnet_region3                   = "us-east-1c"
-  vpc_route_table_cidr_block           = "0.0.0.0/0"
+  source                                   = "./modules/vpc/"
+  vpc_name                                 = "vpc-waycarbon"
+  vpc_security_group_ingress_from_port_ecs = "3000"
+  vpc_security_group_ingress_to_port_ecs   = "3000"
+  vpc_security_group_ingress_from_port_elb = "80"
+  vpc_security_group_ingress_to_port_elb   = "80"
+  vpc_security_group_ingress_protocol      = "tcp"
+  vpc_security_group_ingress_cidr_ecs      = ["0.0.0.0/0"]
+  vpc_security_group_ingress_cidr_elb      = ["0.0.0.0/0"]
+  vpc_cidr_block                           = "10.0.0.0/16"
+  vpc_subnet1_cidr_block                   = "10.0.1.0/24"
+  vpc_subnet2_cidr_block                   = "10.0.2.0/24"
+  vpc_subnet3_cidr_block                   = "10.0.3.0/24"
+  vpc_subnet_region1                       = "us-east-1a"
+  vpc_subnet_region2                       = "us-east-1b"
+  vpc_subnet_region3                       = "us-east-1c"
+  vpc_route_table_cidr_block               = "0.0.0.0/0"
 }
 
 #Cria um load balancer
@@ -59,6 +62,7 @@ module "elb" {
   elb_name                             = "elb-waycarbon"
   elb_type                             = "application"
   elb_subnets                          = [module.vpc.subnet1_id, module.vpc.subnet2_id]
+  elb_security_groups                  = [module.vpc.security_group_id_elb]
   elb_target_group_name                = "ecs-waycarbon-target-group"
   elb_target_group_port                = module.application.task_container_port
   elb_target_group_protocol            = "HTTP"
@@ -70,24 +74,25 @@ module "elb" {
   elb_group_target_heatlh_timeout      = "5"
   elb_group_target_heatlh_threshold    = "3"
   elb_group_target_unhealthy_threshold = "2"
-  elb_target_group_attachment_id       = module.application_service.service_id
-  elb_target_group_attachment_port     = module.application.task_container_port
   elb_listener_port_http               = "80"
   elb_listener_protocol_http           = "HTTP"
   elb_listener_type                    = "forward"
-  depends_on                           = [module.vpc, module.application_service]
+  depends_on                           = [module.vpc]
 }
 
 #Cria um service ECS
 module "application_service" {
-  source                      = "./modules/ecs_service/"
-  ecs_service_name            = "waycarbon"
-  ecs_service_cluster         = module.ecs.cluster_name
-  ecs_service_task            = module.application.task_arn
-  ecs_service_count           = "1"
-  ecs_service_subnets         = [module.vpc.subnet1_id, module.vpc.subnet2_id]
-  ecs_service_security_groups = [module.vpc.security_group_id]
-  depends_on                  = [module.vpc, module.application, module.ecs]
+  source                       = "./modules/ecs_service/"
+  ecs_service_name             = "waycarbon"
+  ecs_service_cluster          = module.ecs.cluster_name
+  ecs_service_task             = module.application.task_arn
+  ecs_service_count            = "1"
+  ecs_service_target_group_arn = module.elb.target_group_arn
+  ecs_service_container_name   = module.application.task_container_name
+  ecs_service_container_port   = module.application.task_container_port
+  ecs_service_subnets          = [module.vpc.subnet1_id, module.vpc.subnet2_id]
+  ecs_service_security_groups  = [module.vpc.security_group_id_ecs]
+  depends_on                   = [module.vpc, module.application, module.ecs]
 }
 
 #Cria um CDN para a aplicação
