@@ -8,7 +8,7 @@ on:
       - '*'
 jobs:
   test:
-    runs-on: ubuntu-local
+    runs-on: ubuntu-aws
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -21,7 +21,7 @@ jobs:
         
 
   validate:
-    runs-on: ubuntu-local
+    runs-on: ubuntu-aws
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -40,7 +40,7 @@ jobs:
 
   plan:
     needs: validate
-    runs-on: ubuntu-local
+    runs-on: ubuntu-aws
     steps:
       - name: Terraform Init
         run: terraform init
@@ -57,7 +57,7 @@ jobs:
 
   apply:
     needs: plan
-    runs-on: ubuntu-local
+    runs-on: ubuntu-aws
     if: github.ref == 'refs/heads/main'
     steps:
       - name: Terraform Init
@@ -65,4 +65,3 @@ jobs:
         
       - name: Terraform Apply
         run: terraform destroy -auto-approve
-#teste
