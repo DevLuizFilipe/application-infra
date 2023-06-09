@@ -13,6 +13,11 @@ variable "elb_subnets" {
   description = "Subnets do load balancer"
 }
 
+variable "elb_security_groups" {
+  type        = list(string)
+  description = "Security groups do load balancer"
+}
+
 variable "elb_target_group_name" {
   type        = string
   description = "Nome do target group"
@@ -66,16 +71,6 @@ variable "elb_group_target_heatlh_threshold" {
 variable "elb_group_target_unhealthy_threshold" {
   type        = string
   description = "Threshold de checagem de saúde da aplicação"
-}
-
-variable "elb_target_group_attachment_id" {
-  type        = string
-  description = "ID do ECS"
-}
-
-variable "elb_target_group_attachment_port" {
-  type        = string
-  description = "Porta do ECS"
 }
 
 variable "elb_listener_port_http" {

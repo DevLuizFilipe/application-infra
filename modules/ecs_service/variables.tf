@@ -18,6 +18,21 @@ variable "ecs_service_count" {
   description = "Quantidade de replicas da aplicação"
 }
 
+variable "ecs_service_target_group_arn" {
+  type        = string
+  description = "ARN do target group"
+}
+
+variable "ecs_service_container_name" {
+  type        = string
+  description = "Nome do container"
+}
+
+variable "ecs_service_container_port" {
+  type        = string
+  description = "Porta do container"
+}
+
 variable "ecs_service_subnets" {
   type        = list(string)
   description = "Subnets do service"
