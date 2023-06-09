@@ -10,6 +10,7 @@ resource "aws_lb_target_group" "target_group" {
   port     = var.elb_target_group_port
   protocol = var.elb_target_group_protocol
   vpc_id   = var.elb_target_group_vpc
+  target_type = "ip"
 
   health_check {
     interval            = var.elb_group_target_heatlh_interval
