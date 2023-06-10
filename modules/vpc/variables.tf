@@ -32,16 +32,8 @@ variable "vpc_subnet_private_cidr_block_base" {
   description = "Base do CIDR da subnet privada"
 }
 
-variable "vpc_subnet_private_cidr_block_bits" {
-  description = "Bits do CIDR da subnet privada"
-}
-
 variable "vpc_subnet_public_cidr_block_base" {
   description = "Base do CIDR da subnet pública"
-}
-
-variable "vpc_subnet_public_cidr_block_bits" {
-  description = "Bits do CIDR da subnet pública"
 }
 
 variable "vpc_subnet_private_region" {
