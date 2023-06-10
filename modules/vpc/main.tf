@@ -65,14 +65,14 @@ resource "aws_subnet" "subnet_private" {
   count             = var.vpc_subnet_private_count
   vpc_id            = aws_vpc.vpc.id
   cidr_block        = cidrsubnet(var.vpc_cidr_block, 4, count.index * 4)
-  availability_zone = var.vpc_subnet_private_region
+  availability_zone = element(split(",", var.vpc_subnet_regions), count.index)
 }
 
 resource "aws_subnet" "subnet_public" {
   count             = var.vpc_subnet_public_count
   vpc_id            = aws_vpc.vpc.id
   cidr_block        = cidrsubnet(var.vpc_cidr_block, 4, count.index * 4 + 1)
-  availability_zone = var.vpc_subnet_public_region
+  availability_zone = element(split(",", var.vpc_subnet_regions), count.index)
 }
 
 resource "aws_route_table_association" "route_table_association_subnet_private" {
