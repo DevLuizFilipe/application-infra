@@ -14,6 +14,21 @@ resource "aws_security_group" "security_group_ecs" {
     protocol        = "-1"
     security_groups = [aws_security_group.security_group_elb.id]
   }
+
+  ingress {
+    from_port       = "80"
+    to_port         = "0"
+    protocol        = "HTTP"
+    security_groups = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port       = "443"
+    to_port         = "0"
+    protocol        = "HTTPS"
+    security_groups = ["0.0.0.0/0"]
+  }
+
   egress {
     from_port   = "0"
     to_port     = "0"
@@ -31,6 +46,7 @@ resource "aws_security_group" "security_group_elb" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
+  
   egress {
     from_port   = "0"
     to_port     = "0"
