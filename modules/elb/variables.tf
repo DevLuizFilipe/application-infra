@@ -48,16 +48,6 @@ variable "elb_group_target_heatlh_path" {
   description = "Caminho de checagem de saúde da aplicação"
 }
 
-variable "elb_group_target_heatlh_port" {
-  type        = string
-  description = "Porta de checagem de saúde da aplicação"
-}
-
-variable "elb_group_target_heatlh_protocol" {
-  type        = string
-  description = "Protocolo de checagem de saúde da aplicação"
-}
-
 variable "elb_group_target_heatlh_timeout" {
   type        = string
   description = "Timeout de checagem de saúde da aplicação"
@@ -81,9 +71,4 @@ variable "elb_listener_port_http" {
 variable "elb_listener_protocol_http" {
   type        = string
   description = "Protocolo do listener"
-}
-
-variable "elb_listener_type" {
-  type        = string
-  description = "Tipo do listener"
 }
