@@ -1,7 +1,7 @@
 #Cria um bucket para o site estático
 module "bucket_website" {
   source         = "./modules/s3/"
-  s3_bucket_name = "lab-waycarbon"
+  s3_bucket_name = "lab-teste-tecnico-filipe"
   s3_bucket_acl  = "public-read"
   s3_site_index  = "index.html"
   s3_site_error  = "error.html"
@@ -39,13 +39,13 @@ module "vpc" {
   source                                   = "./modules/vpc/"
   vpc_name                                 = "vpc-waycarbon"
   vpc_cidr_block                           = "10.0.0.0/16"
-  vpc_subnet_private_count                 = 2
-  vpc_subnet_public_count                  = 2
+  vpc_subnet_private_count                 = "2"
+  vpc_subnet_public_count                  = "2"
   vpc_security_group_ingress_from_port_elb = "80"
   vpc_security_group_ingress_to_port_elb   = "80"
-  vpc_subnet_private_cidr_block_base       = "10.0.1.0/16"
+  vpc_subnet_private_cidr_block_base       = "10.0.10.0/16"
   vpc_subnet_private_cidr_block_bits       = "8"
-  vpc_subnet_public_cidr_block_base        = "10.0.2.0/16"
+  vpc_subnet_public_cidr_block_base        = "10.0.20.0/16"
   vpc_subnet_public_cidr_block_bits        = "8"
   vpc_subnet_private_region                = "us-east-1a"
   vpc_subnet_public_region                 = "us-east-1b"

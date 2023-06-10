@@ -9,14 +9,14 @@ resource "aws_security_group" "security_group_ecs" {
   vpc_id = aws_vpc.vpc.id
 
   ingress {
-    from_port       = 0
-    to_port         = 0
+    from_port       = "0"
+    to_port         = "0"
     protocol        = "-1"
     security_groups = [aws_security_group.security_group_elb.id]
   }
   egress {
-    from_port   = 0
-    to_port     = 0
+    from_port   = "0"
+    to_port     = "0"
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -28,12 +28,12 @@ resource "aws_security_group" "security_group_elb" {
   ingress {
     from_port   = var.vpc_security_group_ingress_from_port_elb
     to_port     = var.vpc_security_group_ingress_to_port_elb
-    protocol    = "-1"
+    protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
   egress {
-    from_port   = 0
-    to_port     = 0
+    from_port   = "0"
+    to_port     = "0"
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
