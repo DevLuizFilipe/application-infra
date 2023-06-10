@@ -17,15 +17,15 @@ resource "aws_security_group" "security_group_ecs" {
 
   ingress {
     from_port       = "80"
-    to_port         = "0"
-    protocol        = "HTTP"
+    to_port         = "80"
+    protocol        = "tcp"
     security_groups = ["0.0.0.0/0"]
   }
 
   ingress {
     from_port       = "443"
-    to_port         = "0"
-    protocol        = "HTTPS"
+    to_port         = "443"
+    protocol        = "tcp"
     security_groups = ["0.0.0.0/0"]
   }
 
