@@ -18,6 +18,11 @@ variable "ecs_service_count" {
   description = "Quantidade de replicas da aplicação"
 }
 
+variable "ecs_service_type" {
+  type        = string
+  description = "Tipo de launch type"
+}
+
 variable "ecs_service_target_group_arn" {
   type        = string
   description = "ARN do target group"

@@ -72,6 +72,7 @@ module "application_service" {
   ecs_service_cluster          = module.ecs.cluster_name
   ecs_service_task             = module.application.task_arn
   ecs_service_count            = "1"
+  ecs_service_type             = "FARGATE"
   ecs_service_target_group_arn = module.elb.target_group_arn
   ecs_service_container_name   = module.application.task_container_name
   ecs_service_container_port   = module.application.task_container_port
