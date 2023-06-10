@@ -28,12 +28,7 @@ variable "vpc_security_group_ingress_to_port_elb" {
   description = "Porta de destino do ELB"
 }
 
-variable "vpc_subnet_private_region" {
+variable "vpc_subnet_regions" {
   type        = string
   description = "Região da subnet privada"
-}
-
-variable "vpc_subnet_public_region" {
-  type        = string
-  description = "Regiao da subnet publica"
 }
