@@ -27,7 +27,7 @@ module "application" {
   ecs_task_compatibilities = ["FARGATE"]
   ecs_task_container_name  = "application"
   ecs_task_container_image = "luizfilipesm/waycarbon:latest"
-  ecs_task_container_port  = "3000"
+  ecs_task_container_port  = "80"
   ecs_task_port            = module.application.task_container_port
   ecs_task_protocol        = "tcp"
   ecs_task_memory          = "512"
@@ -39,12 +39,9 @@ module "application" {
 module "vpc" {
   source                                   = "./modules/vpc/"
   vpc_name                                 = "vpc-waycarbon"
-  vpc_security_group_ingress_from_port_ecs = "3000"
-  vpc_security_group_ingress_to_port_ecs   = "3000"
   vpc_security_group_ingress_from_port_elb = "80"
   vpc_security_group_ingress_to_port_elb   = "80"
   vpc_security_group_ingress_protocol      = "tcp"
-  vpc_security_group_ingress_cidr_ecs      = ["0.0.0.0/0"]
   vpc_security_group_ingress_cidr_elb      = ["0.0.0.0/0"]
   vpc_cidr_block                           = "10.0.0.0/16"
   vpc_subnet1_cidr_block                   = "10.0.1.0/24"
@@ -61,7 +58,7 @@ module "elb" {
   source                               = "./modules/elb/"
   elb_name                             = "elb-waycarbon"
   elb_type                             = "application"
-  elb_subnets                          = [module.vpc.subnet1_id, module.vpc.subnet2_id]
+  elb_subnets                          = [module.vpc.subnet3_id]
   elb_security_groups                  = [module.vpc.security_group_id_elb]
   elb_target_group_name                = "ecs-waycarbon-target-group"
   elb_target_group_port                = module.application.task_container_port
