@@ -18,16 +18,6 @@ variable "vpc_cidr_block" {
   description = "default 10.0.0.0/16"
 }
 
-variable "vpc_security_group_ingress_from_port_elb" {
-  type        = string
-  description = "Porta de origem do ELB"
-}
-
-variable "vpc_security_group_ingress_to_port_elb" {
-  type        = string
-  description = "Porta de destino do ELB"
-}
-
 variable "vpc_subnet_regions" {
   type        = string
   description = "Região da subnet privada"
