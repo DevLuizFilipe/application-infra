@@ -64,14 +64,14 @@ resource "aws_route_table" "route_table_public" {
 resource "aws_subnet" "subnet_private" {
   count             = var.vpc_subnet_private_count
   vpc_id            = aws_vpc.vpc.id
-  cidr_block        = cidrsubnet(var.vpc_subnet_private_cidr_block_base, var.vpc_subnet_private_cidr_block_bits, count.index)
+  cidr_block        = "10.1.${count.index}.0/24"
   availability_zone = var.vpc_subnet_private_region
 }
 
 resource "aws_subnet" "subnet_public" {
   count             = var.vpc_subnet_public_count
   vpc_id            = aws_vpc.vpc.id
-  cidr_block        = cidrsubnet(var.vpc_subnet_public_cidr_block_base, var.vpc_subnet_public_cidr_block_bits, count.index)
+  cidr_block        = "10.0.${count.index}.0/24"
   availability_zone = var.vpc_subnet_public_region
 }
 

@@ -45,7 +45,7 @@ module "vpc" {
   vpc_security_group_ingress_to_port_elb   = "80"
   vpc_subnet_private_cidr_block_base       = "10.0.0.0/12"
   vpc_subnet_private_cidr_block_bits       = "12"
-  vpc_subnet_public_cidr_block_base        = "10.0.1.0/12"
+  vpc_subnet_public_cidr_block_base        = "10.1.0.0/12"
   vpc_subnet_public_cidr_block_bits        = "12"
   vpc_subnet_private_region                = "us-east-1a"
   vpc_subnet_public_region                 = "us-east-1b"
