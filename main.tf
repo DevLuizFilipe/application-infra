@@ -36,14 +36,12 @@ module "application" {
 
 #Cria uma VPC com duas subnetes privadas que utiliza um NAT gateway e uma publica que utiliza um internet gateway
 module "vpc" {
-  source                                   = "./modules/vpc/"
-  vpc_name                                 = "vpc-waycarbon"
-  vpc_cidr_block                           = "192.168.0.0/16"
-  vpc_subnet_private_count                 = "2"
-  vpc_subnet_public_count                  = "2"
-  vpc_security_group_ingress_from_port_elb = "80"
-  vpc_security_group_ingress_to_port_elb   = "80"
-  vpc_subnet_regions                = "us-east-1a,us-east-1b"
+  source                   = "./modules/vpc/"
+  vpc_name                 = "vpc-waycarbon"
+  vpc_cidr_block           = "192.168.0.0/16"
+  vpc_subnet_private_count = "2"
+  vpc_subnet_public_count  = "2"
+  vpc_subnet_regions       = "us-east-1a,us-east-1b"
 }
 
 #Cria um load balancer
