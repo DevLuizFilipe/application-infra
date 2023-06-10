@@ -15,7 +15,7 @@ resource "aws_s3_bucket" "bucket" {
       "Effect": "Allow",
       "Principal": "*",
       "Action": ["s3:GetObject"],
-      "Resource": ["arn:aws:s3:::example-bucket/*"]
+      "Resource": ["arn:aws:s3:::${var.s3_bucket_nam}/*"]
     }
   ]
 }
