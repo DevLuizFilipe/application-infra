@@ -13,6 +13,11 @@ output "subnet2_id" {
   description = "Id da subnet 2"
 }
 
+output "subnet3_id" {
+  value       = aws_subnet.subnet3.id
+  description = "Id da subnet 2"
+}
+
 output "security_group_id_ecs" {
   value       = aws_security_group.security_group_ecs.id
   description = "Id do security group ECS"
