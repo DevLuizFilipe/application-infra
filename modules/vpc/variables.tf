@@ -3,6 +3,16 @@ variable "vpc_name" {
   description = "Nome da VPC"
 }
 
+variable "vpc_subnet_private_count" {
+  type        = number
+  description = "Quantidade de subnets privadas"
+}
+
+variable "vpc_subnet_public_count" {
+  type        = number
+  description = "Quantidade de subnets publicas"
+}
+
 variable "vpc_cidr_block" {
   type        = string
   description = "default 10.0.0.0/16"
@@ -18,47 +28,28 @@ variable "vpc_security_group_ingress_to_port_elb" {
   description = "Porta de destino do ELB"
 }
 
-variable "vpc_security_group_ingress_protocol" {
-  type        = string
-  description = "Protocolo do ingresso"
+variable "vpc_subnet_private_cidr_block_base" {
+  description = "Base do CIDR da subnet privada"
 }
 
-variable "vpc_security_group_ingress_cidr_elb" {
-  type        = list(string)
-  description = "CIDR do ingresso"
+variable "vpc_subnet_private_cidr_block_bits" {
+  description = "Bits do CIDR da subnet privada"
 }
 
-variable "vpc_subnet1_cidr_block" {
-  type        = string
-  description = "CIDR da subnet"
+variable "vpc_subnet_public_cidr_block_base" {
+  description = "Base do CIDR da subnet pública"
 }
 
-variable "vpc_subnet2_cidr_block" {
-  type        = string
-  description = "CIDR da subnet"
+variable "vpc_subnet_public_cidr_block_bits" {
+  description = "Bits do CIDR da subnet pública"
 }
 
-variable "vpc_subnet_region1" {
+variable "vpc_subnet_private_region" {
   type        = string
-  description = "Região da subnet"
+  description = "Região da subnet privada"
 }
 
-variable "vpc_subnet_region2" {
+variable "vpc_subnet_public_region" {
   type        = string
-  description = "Regiao da subnet"
-}
-
-variable "vpc_route_table_cidr_block" {
-  type        = string
-  description = "CIDR da tabela de rota"
-}
-
-variable "vpc_subnet3_cidr_block" {
-  type        = string
-  description = "CIDR da subnet"
-}
-
-variable "vpc_subnet_region3" {
-  type        = string
-  description = "Regiao da subnet"
+  description = "Regiao da subnet publica"
 }

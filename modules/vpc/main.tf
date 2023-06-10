@@ -9,14 +9,14 @@ resource "aws_security_group" "security_group_ecs" {
   vpc_id = aws_vpc.vpc.id
 
   ingress {
-    from_port       = "0"
-    to_port         = "0"
+    from_port       = 0
+    to_port         = 0
     protocol        = "-1"
     security_groups = [aws_security_group.security_group_elb.id]
   }
   egress {
-    from_port   = "0"
-    to_port     = "0"
+    from_port   = 0
+    to_port     = 0
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -28,12 +28,12 @@ resource "aws_security_group" "security_group_elb" {
   ingress {
     from_port   = var.vpc_security_group_ingress_from_port_elb
     to_port     = var.vpc_security_group_ingress_to_port_elb
-    protocol    = var.vpc_security_group_ingress_protocol
-    cidr_blocks = var.vpc_security_group_ingress_cidr_elb
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
   }
   egress {
-    from_port   = "0"
-    to_port     = "0"
+    from_port   = 0
+    to_port     = 0
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -47,7 +47,7 @@ resource "aws_route_table" "route_table_private" {
   vpc_id = aws_vpc.vpc.id
 
   route {
-    cidr_block     = var.vpc_route_table_cidr_block
+    cidr_block     = "0.0.0.0/0"
     nat_gateway_id = aws_nat_gateway.nat_gateway.id
   }
 }
@@ -56,50 +56,34 @@ resource "aws_route_table" "route_table_public" {
   vpc_id = aws_vpc.vpc.id
 
   route {
-    cidr_block = var.vpc_route_table_cidr_block
+    cidr_block = "0.0.0.0/0"
     gateway_id = aws_internet_gateway.internet_gateway.id
   }
 }
 
-resource "aws_subnet" "subnet1" {
+resource "aws_subnet" "subnet_private" {
+  count             = var.vpc_subnet_private_count
   vpc_id            = aws_vpc.vpc.id
-  cidr_block        = var.vpc_subnet1_cidr_block
-  availability_zone = var.vpc_subnet_region1
-  depends_on = [
-    aws_vpc.vpc
-  ]
+  cidr_block        = cidrsubnet(var.vpc_subnet_private_cidr_block_base, var.vpc_subnet_private_cidr_block_bits, count.index)
+  availability_zone = var.vpc_subnet_private_region
 }
 
-resource "aws_subnet" "subnet2" {
+resource "aws_subnet" "subnet_public" {
+  count             = var.vpc_subnet_public_count
   vpc_id            = aws_vpc.vpc.id
-  cidr_block        = var.vpc_subnet2_cidr_block
-  availability_zone = var.vpc_subnet_region2
-  depends_on = [
-    aws_vpc.vpc
-  ]
+  cidr_block        = cidrsubnet(var.vpc_subnet_public_cidr_block_base, var.vpc_subnet_public_cidr_block_bits, count.index)
+  availability_zone = var.vpc_subnet_public_region
 }
 
-resource "aws_subnet" "subnet3" {
-  vpc_id            = aws_vpc.vpc.id
-  cidr_block        = var.vpc_subnet3_cidr_block
-  availability_zone = var.vpc_subnet_region3
-  depends_on = [
-    aws_vpc.vpc
-  ]
-}
-
-resource "aws_route_table_association" "route_table_association_subnet1" {
-  subnet_id      = aws_subnet.subnet1.id
+resource "aws_route_table_association" "route_table_association_subnet_private" {
+  count          = var.vpc_subnet_private_count
+  subnet_id      = aws_subnet.subnet_private[count.index].id
   route_table_id = aws_route_table.route_table_private.id
 }
 
-resource "aws_route_table_association" "route_table_association_subnet2" {
-  subnet_id      = aws_subnet.subnet2.id
-  route_table_id = aws_route_table.route_table_private.id
-}
-
-resource "aws_route_table_association" "route_table_association_subnet3" {
-  subnet_id      = aws_subnet.subnet3.id
+resource "aws_route_table_association" "route_table_association_subnet_public" {
+  count          = var.vpc_subnet_public_count
+  subnet_id      = aws_subnet.subnet_public[count.index].id
   route_table_id = aws_route_table.route_table_public.id
 }
 
@@ -109,5 +93,5 @@ resource "aws_eip" "eip" {
 
 resource "aws_nat_gateway" "nat_gateway" {
   allocation_id = aws_eip.eip.id
-  subnet_id     = aws_subnet.subnet3.id
+  subnet_id     = aws_subnet.subnet_public[0].id
 }

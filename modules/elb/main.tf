@@ -15,8 +15,8 @@ resource "aws_lb_target_group" "target_group" {
   health_check {
     interval            = var.elb_group_target_heatlh_interval
     path                = var.elb_group_target_heatlh_path
-    port                = var.elb_group_target_heatlh_port
-    protocol            = var.elb_group_target_heatlh_protocol
+    port                = "traffic-port"
+    protocol            = "HTTP"
     timeout             = var.elb_group_target_heatlh_timeout
     healthy_threshold   = var.elb_group_target_heatlh_threshold
     unhealthy_threshold = var.elb_group_target_unhealthy_threshold
@@ -29,7 +29,7 @@ resource "aws_lb_listener" "listener_http" {
   protocol          = var.elb_listener_protocol_http
 
   default_action {
-    type             = var.elb_listener_type
+    type             = "forward"
     target_group_arn = aws_lb_target_group.target_group.arn
   }
 }

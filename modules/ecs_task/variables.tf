@@ -33,11 +33,6 @@ variable "ecs_task_port" {
   description = "Porta da task"
 }
 
-variable "ecs_task_protocol" {
-  type        = string
-  description = "Protocolo da task"
-}
-
 variable "ecs_task_memory" {
   type        = number
   description = "Memoria da task"

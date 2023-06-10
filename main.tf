@@ -29,7 +29,6 @@ module "application" {
   ecs_task_container_image = "luizfilipesm/waycarbon:latest"
   ecs_task_container_port  = "80"
   ecs_task_port            = module.application.task_container_port
-  ecs_task_protocol        = "tcp"
   ecs_task_memory          = "512"
   ecs_task_cpu             = "256"
   depends_on               = [module.ecs_iam]
@@ -39,18 +38,17 @@ module "application" {
 module "vpc" {
   source                                   = "./modules/vpc/"
   vpc_name                                 = "vpc-waycarbon"
+  vpc_cidr_block                           = "10.0.0.0/16"
+  vpc_subnet_private_count                 = 2
+  vpc_subnet_public_count                  = 2
   vpc_security_group_ingress_from_port_elb = "80"
   vpc_security_group_ingress_to_port_elb   = "80"
-  vpc_security_group_ingress_protocol      = "tcp"
-  vpc_security_group_ingress_cidr_elb      = ["0.0.0.0/0"]
-  vpc_cidr_block                           = "10.0.0.0/16"
-  vpc_subnet1_cidr_block                   = "10.0.1.0/24"
-  vpc_subnet2_cidr_block                   = "10.0.2.0/24"
-  vpc_subnet3_cidr_block                   = "10.0.3.0/24"
-  vpc_subnet_region1                       = "us-east-1a"
-  vpc_subnet_region2                       = "us-east-1b"
-  vpc_subnet_region3                       = "us-east-1c"
-  vpc_route_table_cidr_block               = "0.0.0.0/0"
+  vpc_subnet_private_cidr_block_base       = "10.0.1.0/16"
+  vpc_subnet_private_cidr_block_bits       = "8"
+  vpc_subnet_public_cidr_block_base        = "10.0.2.0/16"
+  vpc_subnet_public_cidr_block_bits        = "8"
+  vpc_subnet_private_region                = "us-east-1a"
+  vpc_subnet_public_region                 = "us-east-1b"
 }
 
 #Cria um load balancer
@@ -58,22 +56,19 @@ module "elb" {
   source                               = "./modules/elb/"
   elb_name                             = "elb-waycarbon"
   elb_type                             = "application"
-  elb_subnets                          = [module.vpc.subnet3_id]
+  elb_subnets                          = module.vpc.subnet_public_id
   elb_security_groups                  = [module.vpc.security_group_id_elb]
   elb_target_group_name                = "ecs-waycarbon-target-group"
   elb_target_group_port                = module.application.task_container_port
   elb_target_group_protocol            = "HTTP"
   elb_target_group_vpc                 = module.vpc.vpc_id
-  elb_group_target_heatlh_interval     = 10
-  elb_group_target_heatlh_path         = "/api"
-  elb_group_target_heatlh_port         = "traffic-port"
-  elb_group_target_heatlh_protocol     = "HTTP"
+  elb_group_target_heatlh_interval     = "10"
+  elb_group_target_heatlh_path         = "/"
   elb_group_target_heatlh_timeout      = "5"
   elb_group_target_heatlh_threshold    = "3"
   elb_group_target_unhealthy_threshold = "2"
   elb_listener_port_http               = "80"
   elb_listener_protocol_http           = "HTTP"
-  elb_listener_type                    = "forward"
   depends_on                           = [module.vpc]
 }
 
@@ -87,7 +82,7 @@ module "application_service" {
   ecs_service_target_group_arn = module.elb.target_group_arn
   ecs_service_container_name   = module.application.task_container_name
   ecs_service_container_port   = module.application.task_container_port
-  ecs_service_subnets          = [module.vpc.subnet1_id, module.vpc.subnet2_id]
+  ecs_service_subnets          = module.vpc.subnet_private_id
   ecs_service_security_groups  = [module.vpc.security_group_id_ecs]
   depends_on                   = [module.vpc, module.application, module.ecs]
 }
