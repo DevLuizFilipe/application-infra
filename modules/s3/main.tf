@@ -1,12 +1,5 @@
 resource "aws_s3_bucket" "bucket" {
   bucket = var.s3_bucket_name
-  acl    = var.s3_bucket_acl
-  cors_rule {
-    allowed_headers = ["*"]
-    allowed_methods = ["GET", "POST", "PUT"]
-    allowed_origins = ["*"]
-    expose_headers  = ["ETag"]
-  }
 }
 
 resource "aws_s3_bucket_versioning" "bucket_versioning" {
@@ -37,4 +30,21 @@ resource "aws_s3_bucket_website_configuration" "website_configuration" {
   error_document {
     key = var.s3_site_error
   }
+}
+
+data "aws_iam_policy_document" "s3_policy" {
+  statement {
+    actions   = ["s3:GetObject"]
+    resources = ["${aws_s3_bucket.bucket.arn}/*"]
+
+    principals {
+      type        = "AWS"
+      identifiers = ["*"]
+    }
+  }
+}
+
+resource "aws_s3_bucket_policy" "bucket_policy" {
+  bucket = aws_s3_bucket.bucket.id
+  policy = data.aws_iam_policy_document.s3_policy.json
 }
