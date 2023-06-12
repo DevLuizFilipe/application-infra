@@ -3,8 +3,8 @@ output "target_group_arn" {
   description = "ARN do target group"
 }
 
-output "elb_id" {
-  value       = aws_lb.elb.id
+output "elb_name" {
+  value       = aws_lb.elb.name
   description = "ID do load balancer"
 }
 
