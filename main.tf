@@ -87,6 +87,7 @@ module "cdn" {
   cdn_origin_id           = "LoadBalancerOrigin"
   cdn_enabled             = "true"
   cdn_ipv6                = "true"
+  cdn_root_object         = "index.html"
   cdn_allowed_methods     = ["GET", "HEAD", "OPTIONS"]
   cdn_cached_methods      = ["GET", "HEAD", "OPTIONS"]
   cdn_cache_target_origin = module.bucket_website.bucket_name
