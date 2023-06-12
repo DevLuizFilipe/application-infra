@@ -2,7 +2,12 @@ resource "aws_cloudfront_distribution" "cdn" {
   origin {
     domain_name = var.cdn_damin_name
     origin_id   = var.cdn_origin_id
-    origin_path = var.cdn_target_path
+    custom_origin_config {
+      http_port              = 80
+      https_port             = 443
+      origin_protocol_policy = "http-only"
+      origin_ssl_protocols   = ["TLSv1.2"]
+    }
   }
 
   enabled             = var.cdn_enabled
