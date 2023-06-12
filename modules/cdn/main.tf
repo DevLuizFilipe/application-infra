@@ -2,6 +2,7 @@ resource "aws_cloudfront_distribution" "cdn" {
   origin {
     domain_name = var.cdn_damin_name
     origin_id   = var.cdn_origin_id
+    origin_path = var.cdn_cache_target_origin
   }
 
   enabled             = var.cdn_enabled
@@ -34,12 +35,5 @@ resource "aws_cloudfront_distribution" "cdn" {
 
   viewer_certificate {
     cloudfront_default_certificate = var.cdn_certificate_default
-  }
-  ordered_cache_behavior {
-    path_pattern           = var.cdn_target_path
-    target_origin_id       = var.cdn_origin_id
-    viewer_protocol_policy = var.cdn_protocol_policy
-    allowed_methods        = var.cdn_allowed_methods
-    cached_methods         = var.cdn_allowed_methods
   }
 }
