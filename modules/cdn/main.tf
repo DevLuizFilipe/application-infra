@@ -6,7 +6,6 @@ resource "aws_cloudfront_distribution" "cdn" {
 
   enabled             = var.cdn_enabled
   is_ipv6_enabled     = var.cdn_ipv6
-  default_root_object = var.cdn_root_object
 
   default_cache_behavior {
     allowed_methods  = var.cdn_allowed_methods
@@ -34,5 +33,9 @@ resource "aws_cloudfront_distribution" "cdn" {
 
   viewer_certificate {
     cloudfront_default_certificate = var.cdn_certificate_default
+  }
+  ordered_cache_behavior {
+    path_pattern     = var.cdn_target_path
+    target_origin_id = var.cdn_origin_id
   }
 }

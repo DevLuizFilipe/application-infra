@@ -83,11 +83,10 @@ module "application_service" {
 #Cria um CDN para a aplicação
 module "cdn" {
   source                  = "./modules/cdn/"
-  cdn_damin_name          = module.bucket_website.domain_name
-  cdn_origin_id           = module.bucket_website.bucket_name
+  cdn_damin_name          = module.elb.dns_name
+  cdn_origin_id           = "LoadBalancerOrigin"
   cdn_enabled             = "true"
   cdn_ipv6                = "true"
-  cdn_root_object         = "index.html"
   cdn_allowed_methods     = ["GET", "HEAD", "OPTIONS"]
   cdn_cached_methods      = ["GET", "HEAD", "OPTIONS"]
   cdn_cache_target_origin = module.bucket_website.bucket_name
@@ -99,7 +98,8 @@ module "cdn" {
   cdn_max_ttl             = "86400"
   cdn_geo_restriction     = "none"
   cdn_certificate_default = "true"
-  depends_on              = [module.bucket_website]
+  cdn_target_path         = "/api"
+  depends_on              = [module.elb]
 }
 
 # #Cria um dominio e um record do tipo CNAME
@@ -109,5 +109,5 @@ module "cdn" {
 #   route53_record_name = "waycarbon-teste"
 #   route53_record_type = "CNAME"
 #   route53_record_ttl  = "15"
-#   route53_records     = ["module.cdn.cloudfront_domain_name"] #Alterar
+#   route53_records     = [""] #Alterar
 # }
