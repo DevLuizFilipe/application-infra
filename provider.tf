@@ -1,5 +1,4 @@
 provider "aws" {
-  profile = "default"
 }
 terraform {
   backend "s3" {

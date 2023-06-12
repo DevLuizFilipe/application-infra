@@ -1,11 +1,11 @@
-# #Cria um bucket para o site estático
-# module "bucket_website" {
-#   source         = "./modules/s3/"
-#   s3_bucket_name = "lab-teste-tecnico-filipe"
-#   s3_bucket_acl  = "public-read"
-#   s3_site_index  = "index.html"
-#   s3_site_error  = "error.html"
-# }
+#Cria um bucket para o site estático
+module "bucket_website" {
+  source         = "./modules/s3/"
+  s3_bucket_name = "lab-waycarbon"
+  s3_bucket_acl  = "public-read"
+  s3_site_index  = "index.html"
+  s3_site_error  = "error.html"
+}
 
 #Cria uma role para o ECS
 module "ecs_iam" {
@@ -82,26 +82,26 @@ module "application_service" {
 }
 
 #Cria um CDN para a aplicação
-# module "cdn" {
-#   source                  = "./modules/cdn/"
-#   cdn_damin_name          = module.bucket_website.domain_name
-#   cdn_origin_id           = module.bucket_website.bucket_name
-#   cdn_enabled             = "true"
-#   cdn_ipv6                = "true"
-#   cdn_root_object         = "index.html"
-#   cdn_allowed_methods     = ["GET", "HEAD", "OPTIONS"]
-#   cdn_cached_methods      = ["GET", "HEAD", "OPTIONS"]
-#   cdn_cache_target_origin = module.bucket_website.bucket_name
-#   cdn_query_string        = "false"
-#   cdn_cookies             = "none"
-#   cdn_protocol_policy     = "redirect-to-https"
-#   cdn_min_ttl             = "0"
-#   cdn_default_ttl         = "3600"
-#   cdn_max_ttl             = "86400"
-#   cdn_geo_restriction     = "none"
-#   cdn_certificate_default = "true"
-#   depends_on              = [module.bucket_website]
-# }
+module "cdn" {
+  source                  = "./modules/cdn/"
+  cdn_damin_name          = module.bucket_website.domain_name
+  cdn_origin_id           = module.bucket_website.bucket_name
+  cdn_enabled             = "true"
+  cdn_ipv6                = "true"
+  cdn_root_object         = "index.html"
+  cdn_allowed_methods     = ["GET", "HEAD", "OPTIONS"]
+  cdn_cached_methods      = ["GET", "HEAD", "OPTIONS"]
+  cdn_cache_target_origin = module.bucket_website.bucket_name
+  cdn_query_string        = "false"
+  cdn_cookies             = "none"
+  cdn_protocol_policy     = "redirect-to-https"
+  cdn_min_ttl             = "0"
+  cdn_default_ttl         = "3600"
+  cdn_max_ttl             = "86400"
+  cdn_geo_restriction     = "none"
+  cdn_certificate_default = "true"
+  depends_on              = [module.bucket_website]
+}
 
 # #Cria um dominio e um record do tipo CNAME
 # module "route53" {
