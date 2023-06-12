@@ -77,3 +77,8 @@ variable "cdn_certificate_default" {
   type        = string
   description = "Habilitar Certificado padrão"
 }
+
+variable "cdn_target_path" {
+  type        = string
+  description = "Caminho do target"
+}
