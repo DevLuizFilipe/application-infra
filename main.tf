@@ -84,7 +84,7 @@ module "application_service" {
 module "cdn" {
   source                  = "./modules/cdn/"
   cdn_damin_name          = module.elb.dns_name
-  cdn_origin_id           = module.elb.elb_id
+  cdn_origin_id           = module.elb.elb_name
   cdn_enabled             = "true"
   cdn_ipv6                = "true"
   cdn_root_object         = "index.html"
