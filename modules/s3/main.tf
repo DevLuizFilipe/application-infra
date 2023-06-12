@@ -1,5 +1,6 @@
 resource "aws_s3_bucket" "bucket" {
   bucket = var.s3_bucket_name
+  object_lock_enabled = false
 }
 
 resource "aws_s3_bucket_versioning" "bucket_versioning" {

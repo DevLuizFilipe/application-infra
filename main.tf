@@ -109,5 +109,5 @@ module "cdn" {
 #   route53_record_name = "waycarbon-teste"
 #   route53_record_type = "CNAME"
 #   route53_record_ttl  = "15"
-#   route53_records     = ["ad3f84cb53d294f9c80b2ee8465ac1d3-818998528.us-east-1.elb.amazonaws.com"] #Alterar
+#   route53_records     = ["module.cdn.cloudfront_domain_name"] #Alterar
 # }
