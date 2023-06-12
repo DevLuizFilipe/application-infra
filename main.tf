@@ -56,7 +56,7 @@ module "elb" {
   elb_target_group_protocol            = "HTTP"
   elb_target_group_vpc                 = module.vpc.vpc_id
   elb_group_target_heatlh_interval     = "10"
-  elb_group_target_heatlh_path         = "/"
+  elb_group_target_heatlh_path         = "/api"
   elb_group_target_heatlh_timeout      = "5"
   elb_group_target_heatlh_threshold    = "3"
   elb_group_target_unhealthy_threshold = "2"
