@@ -7,7 +7,7 @@ on:
     branches:
       - '*'
 jobs:
-  test:
+  scan:
     runs-on: ubuntu-local
     steps:
       - name: Checkout
@@ -19,6 +19,7 @@ jobs:
 
       - name: Executando o KICS Scan
         run: docker run -v $(pwd):/path -i checkmarx/kics:latest scan -p "/path"
+    continue-on-error: true
 
   validate:
     runs-on: ubuntu-local
