@@ -13,7 +13,6 @@ resource "aws_cloudfront_distribution" "cdn" {
 
   enabled             = var.cdn_enabled
   is_ipv6_enabled     = var.cdn_ipv6
-  default_root_object = var.cdn_root_object
 
   default_cache_behavior {
     allowed_methods  = var.cdn_allowed_methods
