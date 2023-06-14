@@ -18,11 +18,6 @@ variable "cdn_ipv6" {
   description = "Habilitar IPv6"
 }
 
-variable "cdn_root_object" {
-  type        = string
-  description = "Objeto raiz do CDN"
-}
-
 variable "cdn_allowed_methods" {
   type        = list(string)
   description = "Métodos permitidos"
