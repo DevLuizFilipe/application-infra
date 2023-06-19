@@ -1,7 +1,7 @@
 #Cria um bucket para o site estático
 module "bucket_website" {
   source         = "./modules/s3/"
-  s3_bucket_name = "lab-waycarbon"
+  s3_bucket_name = "lab-application"
   s3_site_index  = "index.html"
   s3_site_error  = "error.html"
 }
@@ -15,17 +15,17 @@ module "ecs_iam" {
 #Cria um cluster ECS
 module "ecs" {
   source           = "./modules/ecs/"
-  ecs_cluster_name = "waycarbon"
+  ecs_cluster_name = "application"
 }
 
 #Cria uma task definition ECS
 module "application" {
   source                   = "./modules/ecs_task/"
-  ecs_task_family          = "waycarbon"
+  ecs_task_family          = "application"
   ecs_task_role_arn        = module.ecs_iam.ecs_role_arn
   ecs_task_compatibilities = ["FARGATE"]
   ecs_task_container_name  = "application"
-  ecs_task_container_image = "luizfilipesm/waycarbon:latest"
+  ecs_task_container_image = "luizfilipesm/application:latest"
   ecs_task_container_port  = "80"
   ecs_task_port            = module.application.task_container_port
   ecs_task_memory          = "512"
@@ -36,7 +36,7 @@ module "application" {
 #Cria uma VPC com duas subnetes privadas que utiliza um NAT gateway e uma publica que utiliza um internet gateway
 module "vpc" {
   source                   = "./modules/vpc/"
-  vpc_name                 = "vpc-waycarbon"
+  vpc_name                 = "vpc-application"
   vpc_cidr_block           = "192.168.0.0/16"
   vpc_subnet_private_count = "2"
   vpc_subnet_public_count  = "2"
@@ -46,11 +46,11 @@ module "vpc" {
 #Cria um load balancer
 module "elb" {
   source                               = "./modules/elb/"
-  elb_name                             = "elb-waycarbon"
+  elb_name                             = "elb-application"
   elb_type                             = "application"
   elb_subnets                          = module.vpc.subnet_public_id
   elb_security_groups                  = [module.vpc.security_group_id_elb]
-  elb_target_group_name                = "ecs-waycarbon-target-group"
+  elb_target_group_name                = "ecs-application-target-group"
   elb_target_group_port                = module.application.task_container_port
   elb_target_group_protocol            = "HTTP"
   elb_target_group_vpc                 = module.vpc.vpc_id
@@ -67,7 +67,7 @@ module "elb" {
 #Cria um service ECS
 module "application_service" {
   source                       = "./modules/ecs_service/"
-  ecs_service_name             = "waycarbon"
+  ecs_service_name             = "application"
   ecs_service_cluster          = module.ecs.cluster_name
   ecs_service_task             = module.application.task_arn
   ecs_service_count            = "1"
@@ -106,7 +106,7 @@ module "cdn" {
 # module "route53" {
 #   source              = "./modules/route53/"
 #   route53_zone_name   = "labluizfilipe.com.br"
-#   route53_record_name = "waycarbon-teste"
+#   route53_record_name = "application-teste"
 #   route53_record_type = "CNAME"
 #   route53_record_ttl  = "15"
 #   route53_records     = [""] #Alterar
