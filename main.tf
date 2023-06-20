@@ -20,17 +20,18 @@ module "ecs" {
 
 #Cria uma task definition ECS
 module "application" {
-  source                   = "./modules/ecs_task/"
-  ecs_task_family          = "application"
-  ecs_task_role_arn        = module.ecs_iam.ecs_role_arn
-  ecs_task_compatibilities = ["FARGATE"]
-  ecs_task_container_name  = "application"
-  ecs_task_container_image = "luizfilipesm/application:latest"
-  ecs_task_container_port  = "80"
-  ecs_task_port            = module.application.task_container_port
-  ecs_task_memory          = "512"
-  ecs_task_cpu             = "256"
-  depends_on               = [module.ecs_iam]
+  source                       = "./modules/ecs_task/"
+  ecs_task_family              = "application"
+  ecs_task_role_arn            = module.ecs_iam.ecs_role_arn
+  ecs_task_compatibilities     = ["FARGATE"]
+  ecs_task_container_name      = "application"
+  ecs_task_container_image     = "luizfilipesm/waycarbon"
+  ecs_task_container_image_tag = "latest"
+  ecs_task_container_port      = "80"
+  ecs_task_port                = module.application.task_container_port
+  ecs_task_memory              = "512"
+  ecs_task_cpu                 = "256"
+  depends_on                   = [module.ecs_iam]
 }
 
 #Cria uma VPC com duas subnetes privadas que utiliza um NAT gateway e uma publica que utiliza um internet gateway

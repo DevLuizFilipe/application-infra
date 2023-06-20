@@ -23,6 +23,11 @@ variable "ecs_task_container_image" {
   description = "Imagem do container"
 }
 
+variable "ecs_task_container_image_tag" {
+  type        = string
+  description = "Tag da imagem do container"
+}
+
 variable "ecs_task_container_port" {
   type        = number
   description = "Porta do container"
