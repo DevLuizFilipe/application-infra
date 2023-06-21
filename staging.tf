@@ -44,7 +44,7 @@ module "vpc_staging" {
   vpc_subnet_regions       = "us-east-1a,us-east-1b"
 }
 
-#Cria um load balancer
+#Cria um load balancer, um listener e um target group
 module "elb_staging" {
   source                               = "./modules/elb/"
   elb_name                             = "elb-application-staging"
