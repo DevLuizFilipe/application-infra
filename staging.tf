@@ -51,7 +51,7 @@ module "elb_staging" {
   elb_type                             = "application"
   elb_subnets                          = module.vpc_staging.subnet_public_id
   elb_security_groups                  = [module.vpc_staging.security_group_id_elb]
-  elb_target_group_name                = "ecs-application-target-group-staging"
+  elb_target_group_name                = "application-staging"
   elb_target_group_port                = module.application_staging.task_container_port
   elb_target_group_protocol            = "HTTP"
   elb_target_group_vpc                 = module.vpc_staging.vpc_id

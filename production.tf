@@ -51,7 +51,7 @@ module "elb_production" {
   elb_type                             = "application"
   elb_subnets                          = module.vpc_production.subnet_public_id
   elb_security_groups                  = [module.vpc_production.security_group_id_elb]
-  elb_target_group_name                = "ecs-application-target-group-production"
+  elb_target_group_name                = "application-production"
   elb_target_group_port                = module.application_production.task_container_port
   elb_target_group_protocol            = "HTTP"
   elb_target_group_vpc                 = module.vpc_production.vpc_id
