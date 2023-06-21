@@ -78,7 +78,7 @@ module "application_service_production" {
   ecs_service_container_port   = module.application_production.task_container_port
   ecs_service_subnets          = module.vpc_production.subnet_private_id
   ecs_service_security_groups  = [module.vpc_production.security_group_id_ecs]
-  depends_on                   = [module.vpc_production, module.application_production, module.ecs_production, module.bucket_website_staging, module.cdn_production, module.elb_production, module.ecs_iam_production]
+  depends_on                   = [module.application_production, module.ecs_production, module.bucket_website_staging, module.cdn_production]
 }
 
 #Cria um CDN para a aplicação

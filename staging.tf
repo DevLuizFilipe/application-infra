@@ -78,7 +78,7 @@ module "application_service_staging" {
   ecs_service_container_port   = module.application_staging.task_container_port
   ecs_service_subnets          = module.vpc_staging.subnet_private_id
   ecs_service_security_groups  = [module.vpc_staging.security_group_id_ecs]
-  depends_on                   = [module.vpc_staging, module.application_staging, module.ecs_staging, module.bucket_website_staging, module.cdn_staging, module.elb_staging, module.ecs_iam_staging]
+  depends_on                   = [module.application_staging, module.ecs_staging, module.bucket_website_staging, module.cdn_staging]
 }
 
 #Cria um CDN para a aplicação
