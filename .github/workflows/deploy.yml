@@ -8,7 +8,7 @@ on:
       - '*'
 jobs:
   scan:
-    runs-on: ubuntu-local
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -22,7 +22,7 @@ jobs:
     continue-on-error: true
 
   validate:
-    runs-on: ubuntu-local
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -48,7 +48,7 @@ jobs:
 
   plan:
     needs: validate
-    runs-on: ubuntu-local
+    runs-on: ubuntu-latest
     steps:
       - name: Configurando o Terraform
         uses: hashicorp/setup-terraform@v2
@@ -68,7 +68,7 @@ jobs:
 
   staging:
     needs: plan
-    runs-on: ubuntu-local
+    runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/staging'
     steps:
       - name: Configurando AWS Credentials
@@ -89,7 +89,7 @@ jobs:
 
   production:
     needs: staging
-    runs-on: ubuntu-local
+    runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
     steps:
       - name: Configurando AWS Credentials
