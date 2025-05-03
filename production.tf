@@ -122,3 +122,4 @@ output "backend_url_production" {
   value       = module.cdn_production.cloudfront_domain_name
   description = "Dominio do CloudFront"
 }
+
